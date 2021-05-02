@@ -5,17 +5,20 @@ package main
 
 import (
 	"log"
+	"math/rand"
 	"os"
 	"time"
 
-	"github.com/goinaction/code/chapter7/patterns/runner"
+	"github.com/nuinattapon/code/chapter7/patterns/runner"
 )
 
 // timeout is the number of second the program has to finish.
-const timeout = 3 * time.Second
+const timeout = 4 * time.Second
 
 // main is the entry point for the program.
 func main() {
+	rand.Seed(time.Now().UnixNano())
+
 	log.Println("Starting work.")
 
 	// Create a new timer value for this run.
@@ -43,7 +46,8 @@ func main() {
 // number of seconds based on the id.
 func createTask() func(int) {
 	return func(id int) {
-		log.Printf("Processor - Task #%d.", id)
-		time.Sleep(time.Duration(id) * time.Second)
+		duration := rand.Int63n(2000)
+		log.Printf("Processor - Task #%d - It will take %d ms", id, duration)
+		time.Sleep(time.Duration(duration) * time.Millisecond)
 	}
 }
